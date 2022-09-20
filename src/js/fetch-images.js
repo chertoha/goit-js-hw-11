@@ -1,27 +1,16 @@
-const API_KEY = '30013057-0a5f6d6737818554e28c4e8f5';
-const BASE_URL = 'https://pixabay.com/api';
+const axios = require('axios').default;
+import { BASE_URL, queryOptions } from './utils/api-config';
 
-export default function fetchImages(query, page, perPage) {
-  const queryOptions = {
-    key: API_KEY,
-    q: query,
-    image_type: 'photo',
-    orientation: 'horizontal',
-    safesearch: 'true',
-    page: page,
-    per_page: perPage,
-  };
+export default async function fetchImages(query, page, perPage) {
+  queryOptions.q = query;
+  queryOptions.page = page;
+  queryOptions.per_page = perPage;
 
   const url = `${BASE_URL}?${stringifyQueryOptions(queryOptions)}`;
 
-  console.log(url);
-
-  return fetch(url).then(response => {
-    if (response.ok) {
-      return response.json();
-    }
-    throw new Error(response.text);
-  });
+  // console.log(url);
+  const response = await axios.get(url);
+  return response.data;
 }
 
 function stringifyQueryOptions(options) {

@@ -1,4 +1,5 @@
 import fetchImages from './fetch-images';
+import { queryOptions } from './utils/api-config';
 
 export default class Gallery {
   #perPage;
@@ -6,8 +7,8 @@ export default class Gallery {
   #currentQuery;
 
   constructor() {
-    this.#page = 1;
-    this.#perPage = 10;
+    this.#page = queryOptions.page;
+    this.#perPage = queryOptions.per_page;
     this.#currentQuery = null;
   }
 
@@ -24,6 +25,14 @@ export default class Gallery {
     this.#page = 1;
   }
 
+  get page() {
+    return this.#page;
+  }
+
+  get perPage() {
+    return this.#perPage;
+  }
+
   set perPage(value) {
     if (value > 0) {
       this.#perPage = value;
@@ -32,15 +41,7 @@ export default class Gallery {
     console.error('per page value must be > 0');
   }
 
-  get perPage() {
-    return this.#perPage;
-  }
-
   get currentQuery() {
     return this.#currentQuery;
-  }
-
-  get page() {
-    return this.#page;
   }
 }
