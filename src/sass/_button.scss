@@ -1,0 +1,8 @@
+.button {
+    transition: background-color $animation-duration $timing-function;
+
+    &:not(:disabled):hover {
+        cursor: pointer;
+        background-color: rgb(225, 224, 224);
+    }
+}

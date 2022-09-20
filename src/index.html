@@ -1,14 +1,62 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Page title</title>
+    <title>goit-js-hw-11</title>
     <link rel="stylesheet" href="./sass/index.scss" />
-    <script type="module" src="./index.js"></script>
   </head>
   <body>
-    <!-- ❗️❗️❗️ Add partials like so for every page -->
-    <include src="./partials/example.html"></include>
+    <div class="container">
+      <form class="search-form" id="search-form">
+        <div class="search-form__wrapper">
+          <input
+            class="search-form__input"
+            type="text"
+            name="searchQuery"
+            autocomplete="off"
+            placeholder="Search images..."
+          />
+          <button class="search-form__button button" type="submit">
+            <svg
+              fill="#000000"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 30 30"
+              width="15px"
+              height="15px"
+            >
+              <path
+                fill="none"
+                stroke="#000000"
+                stroke-miterlimit="10"
+                stroke-width="2"
+                d="M13 4A9 9 0 1 0 13 22A9 9 0 1 0 13 4Z"
+              />
+              <path
+                fill="none"
+                stroke="#000000"
+                stroke-linecap="round"
+                stroke-miterlimit="10"
+                stroke-width="2"
+                d="M26 26L19.437 19.437"
+              />
+            </svg>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="container container--gallery">
+      <div class="gallery">
+        <!-- Картки зображень -->
+      </div>
+      <button class="load-more-button button hidden" type="button">
+        Load more
+      </button>
+    </div>
+
+    <div class="loader not-active"></div>
+
+    <script type="module" src="./index.js"></script>
   </body>
 </html>

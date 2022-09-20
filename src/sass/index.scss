@@ -1,2 +1,8 @@
-@import './common';
-@import './example';
+@import './utils/variables';
+@import './utils/placeholders';
+@import './base';
+@import './button';
+@import './container';
+@import './search-form';
+@import './gallery';
+@import './loader';
