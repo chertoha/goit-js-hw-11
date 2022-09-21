@@ -8,7 +8,7 @@ const queryOptions = {
   orientation: 'horizontal',
   safesearch: 'true',
   page: 1,
-  per_page: 10,
+  per_page: 40,
 };
 
 export { BASE_URL, queryOptions };

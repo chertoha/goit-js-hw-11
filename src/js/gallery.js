@@ -5,11 +5,13 @@ export default class Gallery {
   #perPage;
   #page;
   #currentQuery;
+  #isUploading;
 
   constructor() {
     this.#page = queryOptions.page;
     this.#perPage = queryOptions.per_page;
     this.#currentQuery = null;
+    this.#isUploading = false;
   }
 
   fetchToGallery(query) {
@@ -43,5 +45,13 @@ export default class Gallery {
 
   get currentQuery() {
     return this.#currentQuery;
+  }
+
+  get isUploading() {
+    return this.#isUploading;
+  }
+
+  set isUploading(value) {
+    this.#isUploading = !!value;
   }
 }
