@@ -103,7 +103,7 @@ function renderGallery(data) {
   const page = gallery.page;
   const perPage = gallery.perPage;
 
-  console.log(data);
+  // console.log(data);
 
   switchLoaderIcon(false);
 
