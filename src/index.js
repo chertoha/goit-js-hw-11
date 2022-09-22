@@ -92,6 +92,7 @@ async function fetchValue(value) {
     gallery.pageIncrease();
   } catch (error) {
     Notify.failure(msg.requestError(error));
+    console.log(error.toJSON());
     switchLoaderIcon(false);
   }
 }
