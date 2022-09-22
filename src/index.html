@@ -9,6 +9,30 @@
   <body>
     <div class="container">
       <form class="search-form" id="search-form">
+        <div class="radio-wrapper">
+          <label class="search-form__label">
+            Infinite scroll
+            <input
+              class="search-form__radio"
+              type="radio"
+              name="uploadScroll"
+              value="true"
+              data-method="infinite-scroll"
+            />
+          </label>
+
+          <label class="search-form__label">
+            Upload button
+            <input
+              class="search-form__radio"
+              type="radio"
+              name="uploadScroll"
+              value="false"
+              data-method="upload-button"
+            />
+          </label>
+        </div>
+
         <div class="search-form__wrapper">
           <input
             class="search-form__input"

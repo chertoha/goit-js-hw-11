@@ -4,4 +4,6 @@ export default {
   gallery: document.querySelector('.gallery'),
   loadMoreBtn: document.querySelector('.load-more-button'),
   loader: document.querySelector('.loader'),
+  radioScroll: document.querySelector('[data-method=infinite-scroll]'),
+  radioUploadBtn: document.querySelector('[data-method=upload-button]'),
 };

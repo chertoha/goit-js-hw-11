@@ -1,3 +1,6 @@
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+
 import throttle from 'lodash.throttle';
 import { Notify } from 'notiflix';
 import notificationsConfig from './js/utils/notifications-config';
@@ -5,32 +8,38 @@ import msg from './js/utils/messages';
 import refs from './js/utils/refs';
 import Gallery from './js/gallery';
 import template from './templates/gallery-template.hbs';
-import Modal from './js/modal';
-
-const modal = new Modal();
-modal.show();
-const isInfiniteScrollActive = modal.isScroll;
-
 Notify.init(notificationsConfig);
 
 refs.form.addEventListener('submit', onSubmitForm);
 refs.loadMoreBtn.addEventListener('click', onLoadMoreBtnClick);
 
 const gallery = new Gallery();
-// const isInfiniteScrollActive = true;
+let isInfiniteScrollActive = getIsInfiniteScrollEnabledFromStorage();
 const throttledOnWindowScroll = throttle(onWindowScroll, 400);
+
+const lightbox = new SimpleLightbox('.gallery a', {
+  overlayOpacity: 0.5,
+  captionsData: 'alt',
+  captionClass: 'gallery__image-caption',
+  captionDelay: 250,
+});
+
+setRadioChecked();
 
 /*------------------------------------------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------------------*/
-/*------------------------------------------------------------------------------------------------------------*/
-/*------------------------------------------------------------------------------------------------------------*/
+
 //Handlers
 function onSubmitForm(e) {
   e.preventDefault();
 
-  switchLoadMoreBtn(false);
-
+  const isUploadScroll = e.target.elements.uploadScroll.value;
   const userValue = e.target.elements.searchQuery.value.trim();
+
+  setIsInfiniteScrollEnabledToStorage(isUploadScroll);
+  isInfiniteScrollActive = getIsInfiniteScrollEnabledFromStorage();
+
+  switchLoadMoreBtn(false);
 
   //Empty value notification
   if (userValue === '') {
@@ -54,13 +63,18 @@ function onWindowScroll() {
     return;
   }
 
+  if (checkLastGalleryElementPos()) {
+    fetchValue(gallery.currentQuery);
+  }
+}
+
+//Check if viewport size more than last gallery element total height
+function checkLastGalleryElementPos() {
   const viewportHeight = window.innerHeight;
   const { bottom: lastElDistance } =
     refs.gallery.lastElementChild.getBoundingClientRect();
 
-  if (viewportHeight + 100 > lastElDistance) {
-    fetchValue(gallery.currentQuery);
-  }
+  return viewportHeight + 100 > lastElDistance;
 }
 
 //Fetch API function
@@ -82,6 +96,7 @@ async function fetchValue(value) {
   }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
 //Render
 function renderGallery(data) {
   const totalHits = data.totalHits;
@@ -105,8 +120,9 @@ function renderGallery(data) {
 
   //Render html
   refs.gallery.insertAdjacentHTML('beforeend', template(data.hits));
+  lightbox.refresh();
 
-  scrollAfterRender();
+  scrollAnimationAfterRender();
 
   // End of hits notification
   if (page * perPage >= totalHits) {
@@ -116,8 +132,16 @@ function renderGallery(data) {
     return;
   }
 
+  //Ensufficient cards per viewport notification
+  if (isInfiniteScrollActive && checkLastGalleryElementPos()) {
+    isInfiniteScrollActive = false;
+    switchScrollListener(false);
+    Notify.warning(msg.NOT_ENOUGH_CONTENT);
+  }
+
   switchLoadMoreBtn(!isInfiniteScrollActive);
 }
+///////////////////////////////////////////////////////////////////////////////////////////
 
 //Switch functions
 function switchLoadMoreBtn(isEnabled) {
@@ -136,8 +160,8 @@ function switchScrollListener(isEnabled) {
   }
 }
 
-//Animation functions
-function scrollAfterRender() {
+//Scroll animation function
+function scrollAnimationAfterRender() {
   const { height: cardHeight } =
     refs.gallery.firstElementChild.getBoundingClientRect();
 
@@ -145,4 +169,21 @@ function scrollAfterRender() {
     top: cardHeight * 2,
     behavior: 'smooth',
   });
+}
+
+//Infinite scrool is enabled set/get Local Storage
+function setIsInfiniteScrollEnabledToStorage(isEnabled) {
+  localStorage.setItem('isInfiniteScrollEnabled', isEnabled);
+}
+
+function getIsInfiniteScrollEnabledFromStorage() {
+  return !!JSON.parse(localStorage.getItem('isInfiniteScrollEnabled'));
+}
+
+function setRadioChecked() {
+  if (getIsInfiniteScrollEnabledFromStorage()) {
+    refs.radioScroll.checked = true;
+  } else {
+    refs.radioUploadBtn.checked = true;
+  }
 }
