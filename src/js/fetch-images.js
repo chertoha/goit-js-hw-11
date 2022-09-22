@@ -8,14 +8,16 @@ export default async function fetchImages(query, page, perPage) {
 
   const url = `${BASE_URL}?${stringifyQueryOptions(queryOptions)}`;
 
-  console.log(url);
+  console.log('url_1=', url);
 
-  // const response = await axios.get(url);
+  const response = await axios.get(url, {
+    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+  });
 
-  const response = await fetch(url).then(r => r.json());
+  // const response = await fetch(url).then(r => r.json());
   console.log(response);
-  // return response.data;
-  return response;
+  return response.data;
+  // return response;
 }
 
 function stringifyQueryOptions(options) {
