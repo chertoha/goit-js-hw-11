@@ -8,7 +8,7 @@ export default async function fetchImages(query, page, perPage) {
 
   const url = `${BASE_URL}?${stringifyQueryOptions(queryOptions)}`;
 
-  // console.log(url);
+  console.log(url);
   const response = await axios.get(url);
   return response.data;
 }

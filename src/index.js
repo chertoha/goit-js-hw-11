@@ -103,6 +103,8 @@ function renderGallery(data) {
   const page = gallery.page;
   const perPage = gallery.perPage;
 
+  console.log(data);
+
   switchLoaderIcon(false);
 
   //No matches notification
