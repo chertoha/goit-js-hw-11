@@ -10,8 +10,12 @@ export default async function fetchImages(query, page, perPage) {
 
   console.log(url);
 
-  const response = await axios.get(url);
-  return response.data;
+  // const response = await axios.get(url);
+
+  const response = await fetch(url).then(r => r.json());
+  console.log(response);
+  // return response.data;
+  return response;
 }
 
 function stringifyQueryOptions(options) {
