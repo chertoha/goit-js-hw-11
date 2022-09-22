@@ -10,9 +10,7 @@ export default async function fetchImages(query, page, perPage) {
 
   console.log('url_1=', url);
 
-  const response = await axios.get(url, {
-    headers: { 'X-Requested-With': 'XMLHttpRequest' },
-  });
+  const response = await axios.get(url);
 
   // const response = await fetch(url).then(r => r.json());
   console.log(response);
