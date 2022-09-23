@@ -2,13 +2,13 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import throttle from 'lodash.throttle';
-import { Notify } from 'notiflix';
+// import { Notify } from 'notiflix';
 import notificationsConfig from './js/utils/notifications-config';
 import msg from './js/utils/messages';
 import refs from './js/utils/refs';
 import Gallery from './js/gallery';
 import template from './templates/gallery-template.hbs';
-Notify.init(notificationsConfig);
+// Notify.init(notificationsConfig);
 
 refs.form.addEventListener('submit', onSubmitForm);
 refs.loadMoreBtn.addEventListener('click', onLoadMoreBtnClick);
@@ -43,7 +43,7 @@ function onSubmitForm(e) {
 
   //Empty value notification
   if (userValue === '') {
-    Notify.failure(msg.EMPTY_STRING);
+    // Notify.failure(msg.EMPTY_STRING);
     return;
   }
 
@@ -91,7 +91,7 @@ async function fetchValue(value) {
     renderGallery(data);
     gallery.pageIncrease();
   } catch (error) {
-    Notify.failure(msg.requestError(error));
+    // Notify.failure(msg.requestError(error));
     console.log(error.toJSON());
     switchLoaderIcon(false);
   }
@@ -110,7 +110,7 @@ function renderGallery(data) {
 
   //No matches notification
   if (!data.hits.length) {
-    Notify.failure(msg.NO_MATCHES);
+    // Notify.failure(msg.NO_MATCHES);
     return;
   }
 
@@ -118,7 +118,7 @@ function renderGallery(data) {
 
   //First search notificatioin
   if (page === 1) {
-    Notify.success(msg.totalHits(data.totalHits));
+    // Notify.success(msg.totalHits(data.totalHits));
   }
 
   //Render html
@@ -129,7 +129,7 @@ function renderGallery(data) {
 
   // End of hits notification
   if (page * perPage >= totalHits) {
-    Notify.info(msg.END_RESULTS);
+    // Notify.info(msg.END_RESULTS);
     switchLoadMoreBtn(false);
     switchScrollListener(false);
     return;
@@ -139,7 +139,7 @@ function renderGallery(data) {
   if (isInfiniteScrollActive && checkLastGalleryElementPos()) {
     isInfiniteScrollActive = false;
     switchScrollListener(false);
-    Notify.warning(msg.NOT_ENOUGH_CONTENT);
+    // Notify.warning(msg.NOT_ENOUGH_CONTENT);
   }
 
   switchLoadMoreBtn(!isInfiniteScrollActive);
